@@ -1,32 +1,28 @@
-class BancoLista:
-  def __init__ (self, nome, codigo, telefone, taxa_saque, taxa_transferencia, endereco):
-    self.nome = nome
-    self.codigo = codigo
-    self.telefone = telefone
-    self.taxa_saque = taxa_saque
-    self.taxa_transferencia = taxa_transferencia
-    self.endereco = endereco
+from .Conta import Conta
 
-    self.contas = []
+class Banco:
+    def __init__(self, nome, codigo):
+        self.nome = nome
+        self.codigo = codigo
+        self.contas = []
 
-  def adicionar_conta(self, conta):
-    self.contas.append(conta)
+    def criar_conta(self, numero, titular, saldo, limite, data_abertura, tipo_conta):
+        nova_conta = Conta(numero, titular, saldo, limite, data_abertura, tipo_conta)
+        self.contas.append(nova_conta)
+        return nova_conta
 
-  def remover_conta(self, numero_conta):
-    self.contas = [c for c in self.contas if c.numero != numero_conta]
+    def listar_contas(self):
+        if not self.contas:
+            print("Nenhuma conta cadastrada.")
+            return
 
-  def buscar_conta(self, numero_conta):
-    for conta in self.contas:
-      if conta.numero == numero_conta:
-        return conta
-    return None
-  
-  def listar_contas(self):
-    if not self.contas:
-      print("Nenhuma conta cadastrada!")
-    else:
-      for conta in self.contas:
-        print(f'Conta: {conta.numero} - Titular: {conta.titular}')
+        print("\n=== CONTAS DO BANCO ===")
+        for c in self.contas:
+            print(c)
+        print("==========================\n")
 
-  def contas_totais(self):
-    return len(self.contas)
+    def buscar_conta(self, numero):
+        for conta in self.contas:
+            if conta.numero == numero:
+                return conta
+        return None
